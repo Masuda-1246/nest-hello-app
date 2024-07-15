@@ -18,4 +18,4 @@ RUN npm run build
 EXPOSE 3001
 
 # アプリケーションの起動
-CMD ["node", "dist/src/main"]
+CMD ["node", "dist/main"]
