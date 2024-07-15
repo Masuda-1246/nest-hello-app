@@ -1,0 +1,14 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user/myapp
+hooks:
+  BeforeInstall:
+    - location: scripts/docker_cleanup.sh
+      timeout: 300
+      runas: ec2-user
+  AfterInstall:
+    - location: scripts/deploy_docker.sh
+      timeout: 300
+      runas: ec2-user
