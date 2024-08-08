@@ -5,10 +5,7 @@ echo "Starting deployment script" > $LOGFILE
 
 # 必要な環境変数をSSM Parameter Storeから取得して.envファイルを作成
 PARAMETER_NAMES=(
-  "/myapp/DB_HOST"
-  "/myapp/DB_USER"
-  "/myapp/DB_PASSWORD"
-  "/myapp/DB_NAME"
+  "/myapp/MESSAGE"
 )
 
 echo "Creating .env file..." >> $LOGFILE
