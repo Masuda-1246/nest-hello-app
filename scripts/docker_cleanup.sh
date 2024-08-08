@@ -54,6 +54,9 @@ for PARAM in "${PARAMETER_NAMES[@]}"; do
   fi
 done
 
+echo "New .env file created" >> $LOGFILE
+echo "New .env file created"
+
 # バックアップファイルを新しい.envファイルとして置き換え
 mv $ROOT_DIR/.env.bak $ROOT_DIR/.env
 
