@@ -27,9 +27,13 @@ echo "Creating .env file..."
 if [ -f $ROOT_DIR/.env ]; then
   cp $ROOT_DIR/.env $ROOT_DIR/.env.bak
 fi
+echo "Backup file created" >> $LOGFILE
+echo "Backup file created"
 
 # 新しい内容で.envファイルを作成
 for PARAM in "${PARAMETER_NAMES[@]}"; do
+  echo "Getting parameter: $PARAM" >> $LOGFILE
+  echo "Getting parameter: $PARAM"
   KEY=$(echo $PARAM | awk -F'/' '{print $NF}')
   VALUE=$(aws ssm get-parameter --name $PARAM --with-decryption --query "Parameter.Value" --output text 2>> $LOGFILE)
   if [ $? -ne 0 ]; then
