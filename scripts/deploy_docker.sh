@@ -3,6 +3,7 @@
 ROOT_DIR=/home/ec2-user/myapp
 LOGFILE=$ROOT_DIR/deploy.log
 
+
 # ディレクトリとファイルの権限を設定
 sudo chown -R ec2-user:ec2-user $ROOT_DIR
 sudo touch $LOGFILE
