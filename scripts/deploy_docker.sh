@@ -78,19 +78,10 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# 古いコンテナを停止して削除
-echo "Stopping and removing old container..." >> $LOGFILE
-echo "Stopping and removing old container..."
-docker ps -q --filter "name=myapp-container" | grep -q . && docker stop myapp-container >> $LOGFILE 2>&1 && docker rm myapp-container >> $LOGFILE 2>&1
-if [ $? -ne 0 ]; then
-  echo "Failed to stop and remove old container" >> $LOGFILE
-  echo "Failed to stop and remove old container"
-fi
-
 # 新しいコンテナを実行
 echo "Running new container..." >> $LOGFILE
 echo "Running new container..."
-docker run -d --env-file $ROOT_DIR/.env -p 3001:3001 myapp-image >> $LOGFILE 2>&1
+docker run -d --env-file $ROOT_DIR/.env -p 3001:3001 --name myapp-container myapp-image >> $LOGFILE 2>&1
 if [ $? -ne 0 ]; then
   echo "Failed to run new container" >> $LOGFILE
   echo "Failed to run new container"
