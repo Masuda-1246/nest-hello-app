@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ROOT_DIR=/home/ec2-user/nest-hello-app
+ROOT_DIR=/home/ec2-user/myapp
 LOGFILE=/home/ec2-user/deploy.log
 
 # ディレクトリとファイルの権限を設定
@@ -16,16 +16,6 @@ echo "Starting deployment script"
 PARAMETER_NAMES=(
   "/myapp/MESSAGE"
 )
-
-# GitHubリポジトリからソースコードをクローン
-echo "Cloning latest code from GitHub..." >> $LOGFILE
-echo "Cloning latest code from GitHub..."
-git clone https://github.com/Masuda-1246/nest-hello-app.git
-if [ $? -ne 0 ]; then
-  echo "Failed to clone code from GitHub" >> $LOGFILE
-  echo "Failed to clone code from GitHub"
-  exit 1
-fi
 
 sudo chown -R ec2-user:ec2-user $ROOT_DIR
 
