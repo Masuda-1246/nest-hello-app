@@ -3,7 +3,7 @@
 set -e
 
 ROOT_DIR=/home/ec2-user/nest-hello-app
-LOGFILE=$ROOT_DIR/deploy.log
+LOGFILE=/home/ec2-user/docker_cleanup.log
 
 
 # ディレクトリとファイルの権限を設定
@@ -13,8 +13,8 @@ sudo chown ec2-user:ec2-user $LOGFILE
 sudo chmod 644 $LOGFILE
 
 
-LOGFILE=/home/ec2-user/docker_cleanup.log
-echo "Starting docker_cleanup.sh" > $LOGFILE
+
+echo "Starting docker_cleanup.sh" >> $LOGFILE
 
 # ルートディレクトリを削除
 if [ -d $ROOT_DIR ]; then

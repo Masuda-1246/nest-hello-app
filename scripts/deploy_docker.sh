@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ROOT_DIR=/home/ec2-user/nest-hello-app
-LOGFILE=$ROOT_DIR/deploy.log
+LOGFILE=/home/ec2-user/deploy.log
 
 # ディレクトリとファイルの権限を設定
 sudo chown -R ec2-user:ec2-user $ROOT_DIR
@@ -9,11 +9,7 @@ sudo touch $LOGFILE
 sudo chown ec2-user:ec2-user $LOGFILE
 sudo chmod 644 $LOGFILE
 
-echo "Starting deployment script" > $LOGFILE
-echo "Starting deployment script"
-
-
-echo "Starting deployment script" > $LOGFILE
+echo "Starting deployment script" >> $LOGFILE
 echo "Starting deployment script"
 
 # 必要な環境変数をSSM Parameter Storeから取得して.envファイルを作成
