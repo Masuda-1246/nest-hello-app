@@ -2,7 +2,7 @@
 
 set -e
 
-ROOT_DIR=/home/ec2-user/myapp
+ROOT_DIR=/home/ec2-user/nest-hello-app
 LOGFILE=$ROOT_DIR/deploy.log
 
 
@@ -12,64 +12,17 @@ sudo touch $LOGFILE
 sudo chown ec2-user:ec2-user $LOGFILE
 sudo chmod 644 $LOGFILE
 
-echo "Starting deployment script" > $LOGFILE
-echo "Starting deployment script"
-
-# 必要な環境変数をSSM Parameter Storeから取得して.envファイルを作成
-PARAMETER_NAMES=(
-  "/myapp/MESSAGE"
-)
-
-echo "Creating .env file..." >> $LOGFILE
-echo "Creating .env file..."
-
-# .envファイルをバックアップし、後で新しい内容で上書きする
-if [ -f $ROOT_DIR/.env ]; then
-  cp $ROOT_DIR/.env $ROOT_DIR/.env.bak
-fi
-echo "Backup file created" >> $LOGFILE
-echo "Backup file created"
-
-# 新しい内容で.envファイルを作成
-for PARAM in "${PARAMETER_NAMES[@]}"; do
-  KEY=$(echo $PARAM | awk -F'/' '{print $NF}')
-  echo "Getting parameter: $PARAM"
-  VALUE=$(aws ssm get-parameter --name $PARAM --with-decryption --query "Parameter.Value" --output text --region ap-northeast-1)
-  if [ $? -ne 0 ]; then
-    echo "Failed to get parameter: $PARAM" >> $LOGFILE
-    echo "AWS CLI output:" >> $LOGFILE
-    aws ssm get-parameter --name $PARAM --with-decryption --query "Parameter.Value" --output text
-    echo "Restoring from backup..." >> $LOGFILE
-    echo "Restoring from backup..."
-    if [ -f $ROOT_DIR/.env.bak ]; then
-      mv $ROOT_DIR/.env.bak $ROOT_DIR/.env
-    fi
-    exit 1
-  fi
-  # 既存の値をチェックして、なければ追加
-  if grep -q "^$KEY=" $ROOT_DIR/.env.bak; then
-    sed -i "s/^$KEY=.*/$KEY=$VALUE/" $ROOT_DIR/.env.bak
-  else
-    echo "$KEY=$VALUE" >> $ROOT_DIR/.env.bak
-  fi
-done
-
-echo "New .env file created" >> $LOGFILE
-echo "New .env file created"
-
-# バックアップファイルを新しい.envファイルとして置き換え
-mv $ROOT_DIR/.env.bak $ROOT_DIR/.env
-
-# バックアップが不要になった場合、削除
-if [ $? -eq 0 ]; then
-  echo "Removing backup file..." >> $LOGFILE
-  echo "Removing backup file..."
-  rm -f $ROOT_DIR/.env.bak
-fi
 
 LOGFILE=/home/ec2-user/docker_cleanup.log
-
 echo "Starting docker_cleanup.sh" > $LOGFILE
+
+# ルートディレクトリを削除
+if [ -d $ROOT_DIR ]; then
+  echo "Removing directory $ROOT_DIR" >> $LOGFILE
+  rm -rf $ROOT_DIR >> $LOGFILE 2>&1 || { echo "Failed to remove directory" >> $LOGFILE; exit 1; }
+else
+  echo "No directory /home/ec2-user/myapp found" >> $LOGFILE
+fi
 
 # 古いコンテナを停止して削除
 if docker ps -q --filter "name=myapp-container" | grep -q .; then
