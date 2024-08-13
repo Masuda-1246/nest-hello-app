@@ -4,7 +4,7 @@ ROOT_DIR=/home/ec2-user/nest-hello-app
 LOGFILE=/home/ec2-user/deploy.log
 
 # ディレクトリとファイルの権限を設定
-sudo chown -R ec2-user:ec2-user $ROOT_DIR
+
 sudo touch $LOGFILE
 sudo chown ec2-user:ec2-user $LOGFILE
 sudo chmod 644 $LOGFILE
@@ -26,6 +26,8 @@ if [ $? -ne 0 ]; then
   echo "Failed to clone code from GitHub"
   exit 1
 fi
+
+sudo chown -R ec2-user:ec2-user $ROOT_DIR
 
 echo "Creating .env file..." >> $LOGFILE
 echo "Creating .env file..."
