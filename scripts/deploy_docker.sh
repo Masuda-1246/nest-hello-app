@@ -88,7 +88,7 @@ fi
 # 新しいコンテナを実行
 echo "Running new container..." >> $LOGFILE
 echo "Running new container..."
-docker run -d --name myapp-container --env-file $ROOT_DIR/.env -p 80:3000 myapp-image >> $LOGFILE 2>&1
+docker run -d --env-file $ROOT_DIR/.env -p 80:3000 myapp-image >> $LOGFILE 2>&1
 if [ $? -ne 0 ]; then
   echo "Failed to run new container" >> $LOGFILE
   echo "Failed to run new container"
