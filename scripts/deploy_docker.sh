@@ -85,7 +85,6 @@ docker ps -q --filter "name=myapp-container" | grep -q . && docker stop myapp-co
 if [ $? -ne 0 ]; then
   echo "Failed to stop and remove old container" >> $LOGFILE
   echo "Failed to stop and remove old container"
-  exit 1
 fi
 
 # 新しいコンテナを実行
