@@ -32,13 +32,13 @@ echo "Backup file created"
 
 # 新しい内容で.envファイルを作成
 for PARAM in "${PARAMETER_NAMES[@]}"; do
-  echo "Getting parameter: $PARAM" >> $LOGFILE
-  echo "Getting parameter: $PARAM"
   KEY=$(echo $PARAM | awk -F'/' '{print $NF}')
-  VALUE=$(aws ssm get-parameter --name $PARAM --with-decryption --query "Parameter.Value" --output text 2>> $LOGFILE)
+  echo "Getting parameter: $PARAM"
+  VALUE=$(aws ssm get-parameter --name $PARAM --with-decryption --query "Parameter.Value" --output text --region ap-northeast-1)
   if [ $? -ne 0 ]; then
     echo "Failed to get parameter: $PARAM" >> $LOGFILE
-    echo "Failed to get parameter: $PARAM"
+    echo "AWS CLI output:" >> $LOGFILE
+    aws ssm get-parameter --name $PARAM --with-decryption --query "Parameter.Value" --output text
     echo "Restoring from backup..." >> $LOGFILE
     echo "Restoring from backup..."
     if [ -f $ROOT_DIR/.env.bak ]; then
@@ -48,7 +48,7 @@ for PARAM in "${PARAMETER_NAMES[@]}"; do
   fi
   # 既存の値をチェックして、なければ追加
   if grep -q "^$KEY=" $ROOT_DIR/.env.bak; then
-    sed -i "" "s/^$KEY=.*/$KEY=$VALUE/" $ROOT_DIR/.env.bak
+    sed -i "s/^$KEY=.*/$KEY=$VALUE/" $ROOT_DIR/.env.bak
   else
     echo "$KEY=$VALUE" >> $ROOT_DIR/.env.bak
   fi
