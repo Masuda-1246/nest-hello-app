@@ -22,6 +22,8 @@ sudo chown -R ec2-user:ec2-user $ROOT_DIR
 echo "Creating .env file..." >> $LOGFILE
 echo "Creating .env file..."
 
+cd $ROOT_DIR
+
 # .envファイルをバックアップし、後で新しい内容で上書きする
 if [ -f $ROOT_DIR/.env ]; then
   cp $ROOT_DIR/.env $ROOT_DIR/.env.bak
