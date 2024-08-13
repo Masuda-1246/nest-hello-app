@@ -99,3 +99,4 @@ fi
 
 echo "Deployment script completed successfully" >> $LOGFILE
 echo "Deployment script completed successfully"
+
