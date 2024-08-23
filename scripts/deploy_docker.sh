@@ -31,6 +31,7 @@ fi
 echo "Backup file created" >> $LOGFILE
 echo "Backup file created"
 
+
 # 新しい内容で.envファイルを作成
 for PARAM in "${PARAMETER_NAMES[@]}"; do
   KEY=$(echo $PARAM | awk -F'/' '{print $NF}')
