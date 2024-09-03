@@ -24,4 +24,3 @@ fi
 
 echo "docker_cleanup.sh completed" >> $LOGFILE
 
-
